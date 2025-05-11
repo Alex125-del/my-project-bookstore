@@ -1,6 +1,7 @@
 package com.manager.project.service.impl;
 
 
+import com.manager.project.exception.AuthorNotFoundException;
 import com.manager.project.model.AuthorDTO;
 import com.manager.project.entity.Author;
 
@@ -24,7 +25,7 @@ public class AuthorServiceImpl  implements AuthorService {
     @Override
     public AuthorDTO getAuthorById(long id) {
         Author foundAuthor = authorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Author not found"));
+                .orElseThrow(() -> new AuthorNotFoundException("Author not found"));
         return ModelConvertor.convertAuthorToDTO(foundAuthor);
 
     }

@@ -3,6 +3,7 @@ package com.manager.project.service.impl;
 import com.manager.project.entity.Author;
 import com.manager.project.model.BookDTO;
 import com.manager.project.entity.Book;
+import com.manager.project.repository.AuthorRepository;
 import com.manager.project.repository.BookRepository;
 import com.manager.project.service.BookService;
 import com.manager.project.util.ModelConvertor;
@@ -14,9 +15,11 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
     @Override
@@ -38,6 +41,13 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDTO createBook(BookDTO bookDTO) {
         Book book = ModelConvertor.convertToBook(bookDTO);
+
+//
+        Author author = authorRepository.findByName(bookDTO.author().name())
+               .orElseThrow(() -> new RuntimeException("Author not found"));
+
+        book.setAuthor(author);
+
         Book createBook = bookRepository.save(book);
         return ModelConvertor.convertBookToDTO(createBook);
 
