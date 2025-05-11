@@ -1,1 +1,1 @@
-# my-project-bookstore
+Bookstore is a web application developed in Java using Spring Boot that allows the management of a collection of books and authors. The project is designed as a CRUD (Create, Read, Update, Delete) application, structured in logical layers, with access to a relational database through Spring Data JPA.
